@@ -1,0 +1,24 @@
+projection implementation in class ZBP_C_RAP_LEAVEREQ unique;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZC_RAP_LEAVEREQ alias LeaveRequest
+extensible
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use action Submit;
+  use action Approve;
+  use action Reject;
+
+}

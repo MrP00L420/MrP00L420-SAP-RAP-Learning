@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZR_RAP_LEAVEREQ'
+@MappingRole: true
+define role ZR_RAP_LEAVEREQ {
+  grant select on ZR_RAP_LEAVEREQ
+  where TRUE;
+}

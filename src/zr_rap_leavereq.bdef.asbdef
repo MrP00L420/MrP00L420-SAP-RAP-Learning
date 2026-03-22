@@ -1,0 +1,61 @@
+managed implementation in class ZBP_R_RAP_LEAVEREQ unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_RAP_LEAVEREQ alias LeaveRequest
+persistent table zrap_leavereq
+extensible
+draft table zrap_leavereq_d
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global )
+{
+  field ( readonly )
+  RequestUUID,
+  CreatedBy,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+  field ( numbering : managed )
+  RequestUUID;
+
+  create;
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  action Submit result [1] $self;
+  action Approve result [1] $self;
+  action Reject result [1] $self;
+
+  determination SetInitialValues on modify { create; }
+  determination CalculateTotalDays on modify { field StartDate; field EndDate; }
+
+  validation ValidateMandatoryFields on save { create; update; }
+  validation ValidateDates on save { field StartDate; field EndDate; }
+
+  mapping for zrap_leavereq corresponding extensible
+    {
+      RequestUUID        = REQUEST_UUID;
+      EmployeeID         = EMPLOYEE_ID;
+      EmployeeName       = EMPLOYEE_NAME;
+      LeaveType          = LEAVE_TYPE;
+      StartDate          = START_DATE;
+      EndDate            = END_DATE;
+      TotalDays          = TOTAL_DAYS;
+      Reason             = REASON;
+      Status             = STATUS;
+      CreatedBy          = CREATED_BY;
+      CreatedAt          = CREATED_AT;
+      LastChangedBy      = LAST_CHANGED_BY;
+      LastChangedAt      = LAST_CHANGED_AT;
+      LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+    }
+
+}
